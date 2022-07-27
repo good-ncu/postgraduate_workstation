@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="good.ncu.yjs_bb.back.dao.UnivDao">
+    <select id="getAllUniv" resultType="good.ncu.yjs_bb.back.entity.Univ">
+        SELECT * FROM bb_univ
+    </select>
+
+    <select id="getUnivByCode" resultType="good.ncu.yjs_bb.back.entity.Univ">
+        SELECT * FROM bb_univ WHERE univ_code = #{univ_code}
+    </select>
+
+    <update id="UpdateIndex">
+        UPDATE bb_univ SET univ_index = univ_index + 1
+        WHERE univ_code = #{univ_code}
+    </update>
+</mapper>

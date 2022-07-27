@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="good.ncu.yjs_bb.back.dao.ApplyDao">
+    <select id="getUserWork" resultType="good.ncu.yjs_bb.back.entity.Apply">
+        SELECT *
+        FROM bb_apply
+        WHERE user_id = #{user_id}
+          AND apply_del = '0'
+    </select>
+
+    <insert id="addApply">
+        INSERT INTO bb_apply(user_id, univ_name, univ_code, apply_dwname, apply_dwxz, apply_jsly, apply_scode,
+                             apply_lhpydis, apply_disyx, apply_gxds, apply_city, apply_worklx, apply_status, apply_shyj,
+                             apply_del, apply_year, apply_lastopt, apply_zstore)
+        VALUES (#{user_id}, #{univ_name}, #{univ_code}, #{apply_dwname}, #{apply_dwxz}, #{apply_jsly}, #{apply_scode},
+                #{apply_lhpydis}, #{apply_disyx}, #{apply_gxds}, #{apply_city}, #{apply_worklx}, #{apply_status},
+                #{apply_shyj}, #{apply_del}, #{apply_year}, #{apply_lastopt}, #{apply_zstore})
+    </insert>
+
+
+    <update id="rev_Apply">
+        UPDATE bb_apply
+        SET apply_dwxz    = #{apply_dwxz},
+            apply_jsly    = #{apply_jsly},
+            apply_scode   = #{apply_scode},
+            apply_lhpydis = #{apply_lhpydis},
+            apply_disyx   = #{apply_disyx},
+            apply_gxds    = #{apply_gxds},
+            apply_city    = #{apply_city},
+            apply_worklx  = #{apply_worklx},
+            apply_status  = #{apply_status},
+            apply_lastopt = #{apply_lastopt},
+            apply_zstore  = #{apply_zstore}
+        WHERE user_id = #{user_id}
+    </update>
+
+
+    <select id="getAllApply_gx" resultType="good.ncu.yjs_bb.back.entity.Apply">
+        SELECT * FROM bb_apply
+        <if test="univ_code !=null">
+            WHERE apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city}
+            <if test="query_lx !=''">
+                AND apply_worklx = #{query_lx}
+            </if>
+            <if test="query_status !=''">
+                AND apply_status = #{query_status}
+            </if>
+            AND univ_code=#{univ_code}
+            # AND apply_zstore = '0'
+        </if>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="getAllApply_gx_and_year" resultType="good.ncu.yjs_bb.back.entity.Apply">
+        SELECT * FROM bb_apply
+        <if test="univ_code !=null">
+            WHERE apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city}
+            <if test="query_lx !=''">
+                AND apply_worklx = #{query_lx}
+            </if>
+            <if test="query_status !=''">
+                AND apply_status = #{query_status}
+            </if>
+            <if test="query_year !=''">
+                AND apply_year = #{query_year}
+            </if>
+            AND univ_code=#{univ_code}
+            # AND apply_zstore = '0'
+        </if>
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+
+
+    <select id="getApply_gx_count" resultType="java.lang.Integer">
+        SELECT count(*) FROM bb_apply
+        <if test="univ_code !=null">
+            WHERE univ_code=#{univ_code} AND apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city}
+            <if test="query_lx !=''">
+                AND apply_worklx = #{query_lx}
+            </if>
+            <if test="query_status !=''">
+                AND apply_status = #{query_status}
+            </if>
+            # AND apply_zstore = '0'
+        </if>
+    </select>
+
+    <select id="getApply_gx_count_year" resultType="java.lang.Integer">
+        SELECT count(*) FROM bb_apply
+        <if test="univ_code !=null">
+            WHERE univ_code=#{univ_code} AND apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city}
+            <if test="query_lx !=''">
+                AND apply_worklx = #{query_lx}
+            </if>
+            <if test="query_status !=''">
+                AND apply_status = #{query_status}
+            </if>
+            <if test="query_year !=''">
+                AND apply_year = #{query_year}
+            </if>
+            # AND apply_zstore = '0'
+        </if>
+    </select>
+
+
+    <select id="getAllApply_st_and_year" resultType="good.ncu.yjs_bb.back.entity.Apply">
+        SELECT * FROM bb_apply
+        WHERE
+        <if test="univ_code !=''">
+            univ_code=#{univ_code} AND
+        </if>
+        apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city} AND
+        <if test="query_lx !=''">
+            apply_worklx = #{query_lx} AND
+        </if>
+        <if test="query_status !=''">
+            apply_status = #{query_status} AND
+        </if>
+        <if test="query_year !=''">
+            apply_year = #{query_year} AND
+        </if>
+        # apply_zstore = '0'
+        LIMIT #{pageNum},#{pageSize}
+    </select>
+    <select id="getApply_st_count_year" resultType="java.lang.Integer">
+        SELECT count(*) FROM bb_apply
+        WHERE
+        <if test="univ_code !=''">
+            univ_code=#{univ_code} AND
+        </if>
+        apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city} AND
+        <if test="query_lx !=''">
+            apply_worklx = #{query_lx} AND
+        </if>
+        <if test="query_status !=''">
+            apply_status = #{query_status} AND
+        </if>
+        <if test="query_year !=''">
+            apply_year = #{query_year} AND
+        </if>
+        # apply_zstore = '0'
+    </select>
+
+
+    <select id="getApplyByID" resultType="good.ncu.yjs_bb.back.entity.Apply">
+        SELECT * FROM bb_apply
+        <if test="apply_id != null">
+            WHERE apply_id = #{apply_id}
+        </if>
+    </select>
+
+    <update id="SH_Apply">
+        UPDATE bb_apply
+        SET apply_status = #{apply_status},
+            apply_shyj   = #{apply_shyj},
+            apply_lastopt=#{apply_lastopt}
+        WHERE apply_id = #{apply_id}
+    </update>
+
+
+    <select id="getApplyByUserID" resultType="good.ncu.yjs_bb.back.entity.Apply">
+        select * from bb_apply WHERE
+        <if test="user_id != null">
+            user_id = #{user_id}
+        </if>
+    </select>
+
+
+    <select id="findUserID" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM bb_apply
+        WHERE user_id = #{user_id}
+    </select>
+</mapper>

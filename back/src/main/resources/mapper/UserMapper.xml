@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="good.ncu.yjs_bb.back.dao.UserDao">
+
+    <select id="getAllUser" resultType="good.ncu.yjs_bb.back.entity.User">
+        SELECT * FROM bb_user
+        <if test="user_name !=null">
+            WHERE (user_name like #{user_name} OR user_id like #{user_name} OR univ_name like #{user_name} OR user_sbdw
+            like #{user_name} OR user_gxphone like #{user_name} OR user_sbdwphone like #{user_name}) AND user_role = '3'
+            AND univ_code=#{univ_code}
+        </if>
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getUserCounts" resultType="java.lang.Integer">
+        SELECT count(*) FROM bb_user
+        <if test="user_name !=null">
+            WHERE (user_name like #{user_name} OR user_id like #{user_name} OR univ_name like #{user_name} OR user_sbdw
+            like #{user_name} OR user_gxphone like #{user_name} OR user_sbdwphone like #{user_name}) AND user_role = '3'
+        </if>
+    </select>
+
+    <select id="userLogin" resultType="good.ncu.yjs_bb.back.entity.User">
+        SELECT *
+        FROM bb_user
+        WHERE user_name = #{user_name}
+          AND user_passwd = #{user_passwd}
+          AND user_status = '1'
+    </select>
+
+    <update id="updateState">
+        UPDATE bb_user
+        SET user_status = #{user_status}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <select id="getUpdateUser" resultType="good.ncu.yjs_bb.back.entity.User">
+        SELECT *
+        FROM bb_user
+        WHERE user_id = #{user_id}
+    </select>
+
+
+    <update id="editUser">
+        UPDATE bb_user
+        SET user_sbdw=#{user_sbdw},
+            user_gxphone=#{user_gxphone},
+            user_sbdwphone=#{user_sbdwphone}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <update id="updatePasswd">
+        UPDATE bb_user
+        SET user_passwd=#{user_passwd}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <select id="searchUserName" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM bb_user
+        WHERE user_name = #{user_name}
+          AND user_role = '3'
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO bb_user
+        (user_name, user_passwd, user_role, user_status, univ_name, univ_code, user_sbdw, user_gxphone, user_sbdwphone)
+            VALUE
+            (#{user_name}, #{user_passwd}, #{user_role}, #{user_status}, #{univ_name}, #{univ_code}, #{user_sbdw},
+             #{user_gxphone}, #{user_sbdwphone})
+    </insert>
+
+    <select id="findUserByID" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM bb_user
+        WHERE user_id = #{user_id}
+    </select>
+
+
+    <select id="getAllUser_gx" resultType="good.ncu.yjs_bb.back.entity.User">
+        SELECT * FROM bb_user
+        <if test="user_name !=null">
+            WHERE univ_code like #{user_name}
+        </if>
+        AND user_role = '2'
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getUserCounts_gx" resultType="java.lang.Integer">
+        SELECT count(*) FROM bb_user
+        <if test="user_name !=null">
+            WHERE univ_code like #{user_name}
+        </if>
+        AND user_role = '2'
+    </select>
+
+
+    <select id="getAllUser_dw" resultType="good.ncu.yjs_bb.back.entity.User">
+        SELECT * FROM bb_user
+        <if test="user_name !=null">
+            WHERE (user_name like #{user_name} OR user_id like #{user_name} OR univ_name like #{user_name} OR user_sbdw
+            like #{user_name} OR user_gxphone like #{user_name} OR user_sbdwphone like #{user_name})
+        </if>
+        AND user_role = '3'
+        LIMIT #{pageStart},#{pageSize}
+    </select>
+
+    <select id="getUserCounts_dw" resultType="java.lang.Integer">
+        SELECT count(*) FROM bb_user
+        <if test="user_name !=null">
+            WHERE (user_name like #{user_name} OR user_id like #{user_name} OR univ_name like #{user_name} OR user_sbdw
+            like #{user_name} OR user_gxphone like #{user_name} OR user_sbdwphone like #{user_name})
+        </if>
+        AND user_role = '3'
+    </select>
+
+
+</mapper>
