@@ -17,7 +17,11 @@ import axios from 'axios'
 //挂载axios
 Vue.prototype.$http = axios
 //设置访问根路径
-axios.defaults.baseURL = "http://localhost:8081"
+
+// axios.defaults.baseURL= "http://localhost:8081"
+axios.defaults.baseURL = "http://192.168.31.86:8081"
+// axios.defaults.baseURL = "http://118.31.110.156:8081"
+
 axios.defaults.withCredentials = true
 
 // 添加请求拦截器，在请求头中加token

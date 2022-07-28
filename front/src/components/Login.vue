@@ -108,12 +108,23 @@ if (bro == "IE5" || bro == "IE6" || bro == "IE7" || bro == "IE8") {
 
 
 export default {
+
+  created() {
+    this.imgUrl = this.baseURL + "/verifyCode?time=" + new Date();
+  },
+
   data() {
+
+
     return {
       userToken: '',
 
+      // baseURL: "http://localhost:8081",
+      baseURL: "http://192.168.31.86:8081",
+      // baseURL: "http://118.31.110.156:8081",
+
       //表单数据
-      imgUrl: "http://localhost:8081/verifyCode?time=" + new Date(),
+      imgUrl: '',
 
       //隐藏登录密码
       reflag: true,
@@ -156,7 +167,7 @@ export default {
 
     // 重新获取验证码
     resetImg() {
-      this.imgUrl = "http://localhost:8081/verifyCode?time=" + new Date();
+      this.imgUrl = this.baseURL + "/verifyCode?time=" + new Date();
     },
 
 
@@ -165,6 +176,7 @@ export default {
       this.$refs.loginFormRef.validate(async valid => {
             //1 验证失败则结束
             if (!valid) return;
+            console.log(this.loginForm);
             const {data: res} = await this.$http.post("userLogin", this.loginForm);
             if (res.status == "300") {
               this.$message.error("验证码错误");

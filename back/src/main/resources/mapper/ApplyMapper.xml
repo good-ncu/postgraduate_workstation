@@ -46,7 +46,6 @@
                 AND apply_status = #{query_status}
             </if>
             AND univ_code=#{univ_code}
-            # AND apply_zstore = '0'
         </if>
         LIMIT #{pageNum},#{pageSize}
     </select>
@@ -65,7 +64,6 @@
                 AND apply_year = #{query_year}
             </if>
             AND univ_code=#{univ_code}
-            # AND apply_zstore = '0'
         </if>
         LIMIT #{pageNum},#{pageSize}
     </select>
@@ -81,7 +79,6 @@
             <if test="query_status !=''">
                 AND apply_status = #{query_status}
             </if>
-            # AND apply_zstore = '0'
         </if>
     </select>
 
@@ -98,7 +95,6 @@
             <if test="query_year !=''">
                 AND apply_year = #{query_year}
             </if>
-            # AND apply_zstore = '0'
         </if>
     </select>
 
@@ -109,7 +105,6 @@
         <if test="univ_code !=''">
             univ_code=#{univ_code} AND
         </if>
-        apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city} AND
         <if test="query_lx !=''">
             apply_worklx = #{query_lx} AND
         </if>
@@ -119,7 +114,7 @@
         <if test="query_year !=''">
             apply_year = #{query_year} AND
         </if>
-        # apply_zstore = '0'
+        apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city}
         LIMIT #{pageNum},#{pageSize}
     </select>
     <select id="getApply_st_count_year" resultType="java.lang.Integer">
@@ -128,7 +123,6 @@
         <if test="univ_code !=''">
             univ_code=#{univ_code} AND
         </if>
-        apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city} AND
         <if test="query_lx !=''">
             apply_worklx = #{query_lx} AND
         </if>
@@ -138,7 +132,7 @@
         <if test="query_year !=''">
             apply_year = #{query_year} AND
         </if>
-        # apply_zstore = '0'
+        apply_lhpydis like #{query_lhpy} AND apply_city like #{query_city}
     </select>
 
 

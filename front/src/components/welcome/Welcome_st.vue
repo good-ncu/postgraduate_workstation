@@ -14,7 +14,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    margin: 40px 0;text-align: center;font-size: 28px">您好！江西省教育厅的领导</h4>
+    margin: 40px 0;text-align: center;font-size: 28px">欢迎登录本系统</h4>
     </div>
   </div>
 </template>

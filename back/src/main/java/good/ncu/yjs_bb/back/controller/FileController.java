@@ -39,31 +39,30 @@ public class FileController implements WebMvcConfigurer {
         Map<String, Object> resultMap = new HashMap<>();
 
         //判空
-        if(user_id == null){
+        if (user_id == null) {
             resultMap.put("msg", "用户ID为空");
             resultMap.put("code", "400");
         }
 
         //查询请求表是否存在这个用户id，如果没有，则直接返回
         int i = applyService.findUserID(user_id);
-        if(i == 0){
+        if (i == 0) {
             // 找不到该用户的记录，用户记录不在了或假删除了
             resultMap.put("msg", "用户请求不在了");
             resultMap.put("code", "400");
         }
 
 
-
         good.ncu.yjs_bb.back.entity.File file_pdf = fileService.getFileByUserID(user_id, "0");
         good.ncu.yjs_bb.back.entity.File file_zc = fileService.getFileByUserID(user_id, "1");
 
-        if(file_pdf != null){
+        if (file_pdf != null) {
             resultMap.put("pdf_url", file_pdf.getFile_url());
             resultMap.put("pdf_name", file_pdf.getFile_name());
         }
 
 
-        if(file_zc != null){
+        if (file_zc != null) {
             resultMap.put("zc_url", file_zc.getFile_url());
             resultMap.put("zc_name", file_zc.getFile_name());
         }
@@ -75,7 +74,7 @@ public class FileController implements WebMvcConfigurer {
     // 将文件相关信息保存到数据库
     @RequestMapping("/addFile")
     public String addFile(@RequestBody good.ncu.yjs_bb.back.entity.File file) {
-        if(file == null){
+        if (file == null) {
             return "error";
         }
 
@@ -88,7 +87,7 @@ public class FileController implements WebMvcConfigurer {
     // 更新上传的文件
     @RequestMapping("/rev_File")
     public String rev_File(@RequestBody good.ncu.yjs_bb.back.entity.File file) {
-        if(file == null){
+        if (file == null) {
             return "error";
         }
 
@@ -96,6 +95,7 @@ public class FileController implements WebMvcConfigurer {
         System.out.println("更新文件接口调用成功");
         return i > 0 ? "success" : "error";
     }
+
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("/yyyy/MM/dd/");
 
@@ -108,8 +108,8 @@ public class FileController implements WebMvcConfigurer {
     public Map<String, Object> fileUpload_pdf(MultipartFile file, HttpServletRequest req) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        if(file == null){
-            resultMap.put("msg","无上传内容！");
+        if (file == null) {
+            resultMap.put("msg", "无上传内容！");
             resultMap.put("status", "error");
             return resultMap;
         }
@@ -125,7 +125,8 @@ public class FileController implements WebMvcConfigurer {
 
 
         String strFormat = simpleDateFormat.format(new Date());
-        String realPath = filePath + "/PDF" + strFormat;
+        String realPath = filePath + "PDF" + strFormat;
+        System.out.println(realPath);
 
         File folder = new File(realPath);
         if (!folder.exists()) {
@@ -138,7 +139,7 @@ public class FileController implements WebMvcConfigurer {
         try {
             file.transferTo(new File(folder, strNewFileName));
             //【3】生成浏览器路径
-            String strUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/PDF" + strFormat + strNewFileName;
+            String strUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/file/PDF" + strFormat + strNewFileName;
             System.out.println(strUrl);
             resultMap.put("status", "success");
             resultMap.put("review_url", strUrl);
@@ -159,8 +160,8 @@ public class FileController implements WebMvcConfigurer {
     public Map<String, Object> fileUpload_file(MultipartFile file, HttpServletRequest req) {
         Map<String, Object> resultMap = new HashMap<>();
 
-        if(file == null){
-            resultMap.put("msg","无上传内容！");
+        if (file == null) {
+            resultMap.put("msg", "无上传内容！");
             resultMap.put("status", "error");
             return resultMap;
         }
@@ -178,7 +179,8 @@ public class FileController implements WebMvcConfigurer {
 
         // 设置上传路径
         // 【2】真实存储路径
-        String realPath = filePath + "/ZC" + strFormat;
+        String realPath = filePath + "ZC" + strFormat;
+        System.out.println(realPath);
 
         File folder = new File(realPath);
         if (!folder.exists()) {
@@ -190,7 +192,7 @@ public class FileController implements WebMvcConfigurer {
         try {
             file.transferTo(new File(folder, strNewFileName));
             //【3】生成浏览器路径
-            String strUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/ZC" + strFormat + strNewFileName;
+            String strUrl = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/file/ZC" + strFormat + strNewFileName;
             System.out.println(strUrl);
             resultMap.put("status", "success");
             resultMap.put("review_url", strUrl);
@@ -210,9 +212,8 @@ public class FileController implements WebMvcConfigurer {
     // 文件服务器，虚拟路由，默认的会存放到tmp路径，定期被清理
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("file:E:/good_Project/JX_ShuangYiLiu/back/file/");
+        registry.addResourceHandler("/file/**").addResourceLocations("file:" + filePath);
         WebMvcConfigurer.super.addResourceHandlers(registry);
     }
-
 
 }

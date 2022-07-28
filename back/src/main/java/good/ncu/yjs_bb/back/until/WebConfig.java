@@ -39,10 +39,12 @@ public class WebConfig implements WebMvcConfigurer {
       allowedMethods:允许所以请求方式，get、post、put、delete
       allowedOrigins：允许所以域名访问
       allowCredentials：允许携带cookie参数*/
-        registry.addMapping("/**").allowedHeaders("*")
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedHeaders("*")
                 .allowedMethods("*")
-                .allowedOrigins("Http://localhost:8080", "null")
                 .allowCredentials(true).maxAge(3600);
+
     }
 
 
@@ -76,10 +78,12 @@ public class WebConfig implements WebMvcConfigurer {
         List<String> excludePath = new ArrayList<>();
         //排除拦截，除了注册登录(此时还没token)，其他都拦截
 //        excludePath.add("/user/register");  //登录
+        excludePath.add("/**");
         excludePath.add("/userLogin");
         excludePath.add("/verifyCode");
-        excludePath.add("/PDF/**");  //文件静态资源
-        excludePath.add("/ZC/**");  //文件静态资源
+        excludePath.add("/file/**");  //文件静态资源
+//        excludePath.add("/PDF/**");  //文件静态资源
+//        excludePath.add("/ZC/**");  //文件静态资源
         excludePath.add("/upload_file");
         excludePath.add("/upload_pdf");
 //        excludePath.add("/assets/**");  //静态资源

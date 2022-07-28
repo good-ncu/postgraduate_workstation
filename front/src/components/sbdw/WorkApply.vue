@@ -1322,10 +1322,14 @@ export default {
       apply_status_now: '',
       user_sbdw: '',
 
+      // baseURL: "http://localhost:8081",
+      baseURL: "http://192.168.31.86:8081",
+      // baseURL: "http://118.31.110.156:8081",
+
       //上传PDF路由
-      upload_pdf_url: "http://localhost:8081/upload_pdf",
+      upload_pdf_url: this.baseURL + "/upload_pdf",
       //上传证明材料路由
-      upload_file_url: "http://localhost:8081/upload_file",
+      upload_file_url: this.baseURL + "/upload_file",
 
       // 本账号信息实体
       self_info: {

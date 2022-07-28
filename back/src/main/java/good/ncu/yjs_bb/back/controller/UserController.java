@@ -32,6 +32,7 @@ public class UserController {
         String text = code.getText();
         HttpSession session = request.getSession(true);
         session.setAttribute("verify_code", text);
+        System.out.println(text);
         VerificationCode.output(image, resp.getOutputStream());
     }
 
@@ -55,7 +56,6 @@ public class UserController {
             System.out.println("用户" + user.getUser_name() + "验证码错误~");
             return JSON.toJSONString(res);
         }
-
 
         // flag判断登录情况
         String flag = "error";

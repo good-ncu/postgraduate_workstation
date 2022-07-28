@@ -245,12 +245,12 @@
           <el-input class="user_SH_input"
                     type="textarea"
                     :autosize="{ minRows: 4, maxRows: 10}"
-                    v-model="SH_Form.apply_shyj" :readonly="true" v-if="SH_Form.apply_shyj!=''">
+                    v-model="SH_Form.apply_shyj" :readonly="true" v-if="this.SH_Form.apply_shyj!='' && this.SH_Form.apply_shyj.length == 0">
           </el-input>
           <el-input class="user_SH_input"
                     type="textarea"
                     :autosize="{ minRows: 4, maxRows: 10}"
-                    value="高校未审核，请联系高校管理员" :readonly="true" v-if="SH_Form.apply_shyj==''">
+                    value="高校未审核，请联系高校管理员" :readonly="true" v-if="this.SH_Form.apply_shyj===''">
           </el-input>
         </el-form-item>
 
